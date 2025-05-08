@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Комната воспоминаний — ALSSY</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      font-family: sans-serif;
+      color: #fff;
+      overflow: hidden;
+    }
+    .room {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background: url('room.jpg') no-repeat center center/cover;
+    }
+    .hotspot {
+      position: absolute;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+    }
+    .hotspot:hover {
+      transform: scale(1.2);
+    }
+    .tooltip {
+      position: absolute;
+      background: rgba(0,0,0,0.8);
+      padding: 1rem;
+      border-radius: 8px;
+      max-width: 300px;
+      display: none;
+    }
+    .tooltip.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="room">
+    <div class="hotspot" id="polaroid" style="top: 30%; left: 20%; width: 50px; height: 50px;"></div>
+    <div class="hotspot" id="radio" style="top: 55%; left: 40%; width: 50px; height: 50px;"></div>
+    <div class="hotspot" id="note" style="top: 70%; left: 70%; width: 50px; height: 50px;"></div>
+
+    <div class="tooltip" id="tooltip" style="top: 10%; left: 10%;"></div>
+  </div>
+
+  <script>
+    const messages = {
+      polaroid: '«Я бы позвонила тебе... если бы ты умел слушать»',
+      radio: '<audio controls src="voice.mp3"></audio>',
+      note: 'Вырезанная строчка: "Я пыталась забыть, но каждое утро начиналось с тебя"'
+    };
+
+    const tooltip = document.getElementById('tooltip');
+
+    document.querySelectorAll('.hotspot').forEach(hotspot => {
+      hotspot.addEventListener('click', () => {
+        const id = hotspot.id;
+        tooltip.innerHTML = messages[id];
+        tooltip.style.top = (hotspot.offsetTop - 80) + 'px';
+        tooltip.style.left = (hotspot.offsetLeft + 60) + 'px';
+        tooltip.classList.add('show');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.classList.contains('hotspot')) {
+        tooltip.classList.remove('show');
+      }
+    });
+  </script>
+</body>
+</html>
